@@ -55,9 +55,11 @@ let url = require('url')
 
 let app = server.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    console.log(req.url);
-    console.log(req.method);
+    let newReq = url.parse(req.url, true)
+
+    console.log(newReq);
     
+
     if (req.url == "/") {
         res.write("<html><body><b>This is admin Page.</b></body><br/></html>")
         res.end('ended')
@@ -68,8 +70,8 @@ let app = server.createServer((req, res) => {
             }
             res.end(data);
         });
-    } else if ( req.url === '/students/add' & req.method === 'POST'){
-        console.log(req.method);
+    } else if (req.url === '/students/add' & req.method === 'POST'){
+        console.log(newReq.query);
     }
     else {
         res.write("welcome server")
