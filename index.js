@@ -55,17 +55,23 @@ let url = require('url')
 
 let app = server.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
+    console.log(req.url);
+    console.log(req.method);
+    
     if (req.url == "/") {
         res.write("<html><body><b>This is admin Page.</b></body><br/></html>")
         res.end('ended')
-    } else if (req.url === "/students") {
+    } else if (req.url === "/students" & req.method === 'GET') {
         fs.readFile('student.json', 'utf8', (err, data) => {
             if (err) {
                 throw err;
             }
             res.end(data);
         });
-    } else {
+    } else if ( req.url === '/students/add' & req.method === 'POST'){
+        console.log(req.method);
+    }
+    else {
         res.write("welcome server")
         res.end()
     }
