@@ -55,11 +55,10 @@ let url = require('url')
 
 let app = server.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     let newReq = url.parse(req.url, true)
-
-    console.log(newReq);
-    
-
     if (req.url == "/") {
         res.write("<html><body><b>This is admin Page.</b></body><br/></html>")
         res.end('ended')
@@ -70,8 +69,25 @@ let app = server.createServer((req, res) => {
             }
             res.end(data);
         });
-    } else if (req.url === '/students/add' & req.method === 'POST'){
-        console.log(newReq.query);
+    } else if (newReq.pathname === '/students/add') {
+        const newData = JSON.parse(newReq.query.data)
+        const oldData = JSON.parse(fs.readFileSync('student.json', 'utf8'))
+
+        const exist = oldData.some(profile => profile.id === newData.id)
+        const passwordExist = oldData.some(profile => profile.password === newData.password)
+        if (!exist && !passwordExist) {
+            oldData.push(newData)
+
+            fs.writeFileSync('student.json', JSON.stringify(oldData, null, 2))
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: 'Student added successfully' }))
+        } else if (exist) {
+            res.writeHead(409, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Student with this ID already exists' }));
+        } else if (passwordExist) {
+            res.writeHead(409, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Student with this Password already exists' }));
+        }
     }
     else {
         res.write("welcome server")
