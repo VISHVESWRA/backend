@@ -59,7 +59,6 @@ let app = server.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   let newReq = url.parse(req.url, true);
-  console.log(newReq);
 
   if (req.url == "/") {
     res.write("<html><body><b>This is admin Page.</b></body><br/></html>");
@@ -82,13 +81,13 @@ let app = server.createServer((req, res) => {
 
     if (exist) {
       res.writeHead(409, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "Student with this ID already exists" }));
+      res.end(JSON.stringify({ message: "Student with this ID already exists" }));
       return;
     }
 
     if (passwordExist) {
       res.writeHead(409, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "Password already exists" }));
+      res.end(JSON.stringify({ message: "Password already exists" }));
       return;
     }
 
@@ -97,11 +96,52 @@ let app = server.createServer((req, res) => {
 
       fs.writeFileSync("student.json", JSON.stringify(oldData, null, 2));
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Student added successfully" }));
+      res.end(JSON.stringify({
+        message: "Student added successfully",
+        student: newData
+      }));
     }
   } else if (newReq.pathname === "/students/signIn") {
-    console.log(newReq.data);
-  } else {
+    const oldData = JSON.parse(fs.readFileSync("student.json", "utf8"));
+    const newData = JSON.parse(newReq.query.data);
+    const user = oldData.find(user => user.name.toLowerCase() === newData.name.toLowerCase() && user.password === newData.password)
+    if (user) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({
+        message: "Login successfully",
+      }));
+    } else {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "No User Found" }));
+    }
+  } else if (newReq.pathname === "/students/delete") {
+    const deleteData = JSON.parse(newReq.query.data);
+    const oldData = JSON.parse(fs.readFileSync("student.json", "utf8"));
+    const updatedData = oldData.filter(student => student.id !== deleteData.id);
+
+    if (oldData.length === updatedData.length) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Student not found" }));
+      return;
+    }
+    fs.writeFileSync("student.json", JSON.stringify(updatedData, null, 2));
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Student deleted successfully" }));
+  } else if (newReq.pathname === "/students/editPassword") {
+    const reqData = JSON.parse(newReq.query.data);
+    const { id, password } = reqData;
+
+    const studentList = JSON.parse(fs.readFileSync("student.json", "utf8"));
+    const index = studentList.findIndex(student => student.id === id);
+    studentList[index].password = password;
+
+    fs.writeFileSync("student.json", JSON.stringify(studentList, null, 2));
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Password updated successfully" }));
+  }
+  else {
     res.write("welcome server");
     res.end();
   }

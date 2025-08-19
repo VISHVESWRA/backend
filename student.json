@@ -52,5 +52,41 @@
     "id": "",
     "age": "",
     "password": "123"
+  },
+  {
+    "name": "gokul",
+    "password": "Goku@123",
+    "id": "gokul123",
+    "age": "27"
+  },
+  {
+    "name": "Sudharsan",
+    "password": "Sudha@123",
+    "id": "sudha@123",
+    "age": "38"
+  },
+  {
+    "name": "Santhose",
+    "password": "Santh@123",
+    "id": "san123",
+    "age": "29"
+  },
+  {
+    "name": "Mithun",
+    "password": "Mithun@1234",
+    "id": "mith123",
+    "age": "26"
+  },
+  {
+    "name": "Perumal",
+    "password": "Perumal@123",
+    "id": "peru123",
+    "age": "32"
+  },
+  {
+    "name": "Rakshan",
+    "id": "rakshan123",
+    "age": "28",
+    "password": "12345678"
   }
 ]
