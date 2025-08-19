@@ -1,6 +1,6 @@
-let server = require('http')
-let fs = require('fs')
-let url = require('url')
+let server = require("http");
+let fs = require("fs");
+let url = require("url");
 
 // let app = server.createServer((req, res) => {
 //     let q = url.parse(req.url, true)
@@ -54,46 +54,58 @@ let url = require('url')
 // // })
 
 let app = server.createServer((req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-    let newReq = url.parse(req.url, true)
-    if (req.url == "/") {
-        res.write("<html><body><b>This is admin Page.</b></body><br/></html>")
-        res.end('ended')
-    } else if (req.url === "/students" & req.method === 'GET') {
-        fs.readFile('student.json', 'utf8', (err, data) => {
-            if (err) {
-                throw err;
-            }
-            res.end(data);
-        });
-    } else if (newReq.pathname === '/students/add') {
-        const newData = JSON.parse(newReq.query.data)
-        const oldData = JSON.parse(fs.readFileSync('student.json', 'utf8'))
+  let newReq = url.parse(req.url, true);
+  console.log(newReq);
 
-        const exist = oldData.some(profile => profile.id === newData.id)
-        const passwordExist = oldData.some(profile => profile.password === newData.password)
-        if (!exist && !passwordExist) {
-            oldData.push(newData)
+  if (req.url == "/") {
+    res.write("<html><body><b>This is admin Page.</b></body><br/></html>");
+    res.end("ended");
+  } else if ((req.url === "/students") & (req.method === "GET")) {
+    fs.readFile("student.json", "utf8", (err, data) => {
+      if (err) {
+        throw err;
+      }
+      res.end(data);
+    });
+  } else if (newReq.pathname === "/students/add") {
+    const newData = JSON.parse(newReq.query.data);
+    const oldData = JSON.parse(fs.readFileSync("student.json", "utf8"));
 
-            fs.writeFileSync('student.json', JSON.stringify(oldData, null, 2))
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: 'Student added successfully' }))
-        } else if (exist) {
-            res.writeHead(409, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: 'Student with this ID already exists' }));
-        } else if (passwordExist) {
-            res.writeHead(409, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: 'Student with this Password already exists' }));
-        }
+    const exist = oldData.some((profile) => profile.id === newData.id);
+    const passwordExist = oldData.some(
+      (profile) => profile.password === newData.password
+    );
+
+    if (exist) {
+      res.writeHead(409, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Student with this ID already exists" }));
+      return;
     }
-    else {
-        res.write("welcome server")
-        res.end()
-    }
-})
 
-app.listen(9000)
-console.log("-> Local: http://localhost:9000/")
+    if (passwordExist) {
+      res.writeHead(409, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Password already exists" }));
+      return;
+    }
+
+    if (!exist && !passwordExist) {
+      oldData.push(newData);
+
+      fs.writeFileSync("student.json", JSON.stringify(oldData, null, 2));
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Student added successfully" }));
+    }
+  } else if (newReq.pathname === "/students/signIn") {
+    console.log(newReq.data);
+  } else {
+    res.write("welcome server");
+    res.end();
+  }
+});
+
+app.listen(9000);
+console.log("-> Local: http://localhost:9000/");
