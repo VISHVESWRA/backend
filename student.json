@@ -61,26 +61,20 @@
   },
   {
     "name": "Sudharsan",
-    "password": "Sudha@123",
+    "password": 31,
     "id": "sudha@123",
     "age": "38"
   },
   {
     "name": "Santhose",
-    "password": "Santh@123",
+    "password": 7228,
     "id": "san123",
     "age": "29"
   },
   {
     "name": "Mithun",
-    "password": "Mithun@1234",
+    "password": 5270,
     "id": "mith123",
     "age": "26"
-  },
-  {
-    "name": "Rakshan",
-    "id": "rakshan123",
-    "age": "28",
-    "password": "12345678"
   }
 ]
