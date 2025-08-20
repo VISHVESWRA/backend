@@ -108,11 +108,15 @@ let app = server.createServer((req, res) => {
     if (user) {
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify({
+        success: true,
         message: "Login successfully",
       }));
     } else {
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "No User Found" }));
+      res.end(JSON.stringify({
+        success: false,
+        message: "No User Found"
+      }));
     }
   } else if (newReq.pathname === "/students/delete") {
     const deleteData = JSON.parse(newReq.query.data);

@@ -1,11 +1,5 @@
 [
   {
-    "name": "John Doe",
-    "id": "S001",
-    "age": 20,
-    "password": "pass123"
-  },
-  {
     "name": "Jane Smith",
     "id": "S002",
     "age": 22,
@@ -72,9 +66,15 @@
     "age": "29"
   },
   {
-    "name": "Mithun",
-    "password": 5270,
-    "id": "mith123",
-    "age": "26"
+    "name": "vish",
+    "password": "Vish@123",
+    "id": "vish123",
+    "age": "28"
+  },
+  {
+    "name": "new",
+    "password": "new123",
+    "id": "1234",
+    "age": "38"
   }
 ]

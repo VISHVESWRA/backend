@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Toyota",
+        "model": "Camry",
+        "price": 27000
+    },
+    {
+        "name": "Honda",
+        "model": "Civic",
+        "price": 24000
+    },
+    {
+        "name": "Ford",
+        "model": "Mustang",
+        "price": 35000
+    },
+    {
+        "name": "Tesla",
+        "model": "Model 3",
+        "price": 39990
+    },
+    {
+        "name": "BMW",
+        "model": "3 Series",
+        "price": 43000
+    }
+]
