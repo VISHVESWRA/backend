@@ -36,6 +36,42 @@
     "price": 50000
   },
   {
+    "id": 25,
+    "name": "Tata",
+    "model": "Punch",
+    "price": 50000
+  },
+  {
+    "id": 0,
+    "name": "Tata",
+    "model": "Punch",
+    "price": 50000
+  },
+  {
+    "id": 72,
+    "name": "Tata",
+    "model": "Punch",
+    "price": 50000
+  },
+  {
+    "id": 89,
+    "name": "Tata",
+    "model": "Punch",
+    "price": 50000
+  },
+  {
+    "id": 76,
+    "name": "Tata",
+    "model": "Punch",
+    "price": 50000
+  },
+  {
+    "id": 62,
+    "name": "Tata",
+    "model": "Punch",
+    "price": 50000
+  },
+  {
     "id": 16,
     "name": "renold",
     "model": "kwid",
