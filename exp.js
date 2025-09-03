@@ -18,10 +18,8 @@ app.get("/home", (req, res) => {
     res.send(oldData);
 })
 app.get("/home/:pid", (req, res) => {
-    console.log(req.params.pid);
     const oldData = JSON.parse(fs.readFileSync("cars.json", "utf8"));
     const getData = oldData.find((data) => data.id === Number(req.params.pid));
-    
     res.send(getData)
 })
 app.post("/home", (req, res) => {
@@ -33,11 +31,11 @@ app.post("/home", (req, res) => {
 })
 app.delete("/home/:pid", (req, res) => {
     // let { name, email, phone } = req.body
+    console.log(req.params.pid);
 
     res.send(req.params.pid)
 })
 app.put("/home", (res, req) => {
-    console.log(res);
     req.send()
 })
 
